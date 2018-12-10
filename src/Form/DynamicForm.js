@@ -33,9 +33,9 @@ export class Form extends Component {
         });
     }
 
-    formRender(field,key) {
+    formRender(field, key) {
         let renderedField;
-        if(!field.type) {
+        if (!field.type) {
             return <div className={key + '-dynamic-group'}>{this.fieldsMap(field)}</div>
         }
         switch (field.type) {
@@ -56,34 +56,34 @@ export class Form extends Component {
     }
 
     componentWillMount() {
-        
+
         let state = this.initializeFieldsState(this.props.fields)
         this.setState(state);
-        this.options = Object.assign(defaultOptions,this.props.options)
+        this.options = Object.assign(defaultOptions, this.props.options)
     }
 
-    initializeFieldsState(fields){
+    initializeFieldsState(fields) {
         let state = {};
         Object.keys(fields).map(key => {
-            if(fields[key].type){
+            if (fields[key].type) {
                 state[key] = '';
             } else {
-                Object.assign(state,this.initializeFieldsState(fields[key]));
+                Object.assign(state, this.initializeFieldsState(fields[key]));
             }
-                
+
         })
         return state;
     }
 
-    renderClearBtn(){
-        if(this.options.showClearBtn){
+    renderClearBtn() {
+        if (this.options.showClearBtn) {
             return <button type='reset'>{this.options.clearLabel}</button>
         }
     }
 
-    fieldsMap(fields){
+    fieldsMap(fields) {
         return Object.keys(fields).map(key => {
-            return this.formRender(fields[key],key);
+            return this.formRender(fields[key], key);
         })
     }
 
@@ -105,25 +105,25 @@ export class Form extends Component {
 }
 
 let FormRender = {
-    renderText: (name,field, inputFun) => {
+    renderText: (name, field, inputFun) => {
         return (
             <div class={name + "-input-wrapper"}>
-                {FormRender.renderLabel(name,field.label)}
+                {FormRender.renderLabel(name, field.label)}
                 <input {...field.options.inputProps} onChange={(event) => inputFun(name, event.target.value)} type='text' />
             </div>
         );
     },
-    renderTextArea: (name,field, inputFun) => {
+    renderTextArea: (name, field, inputFun) => {
         return (
             <div class={name + "-input-wrapper"}>
-                {FormRender.renderLabel(name,field.label)}
+                {FormRender.renderLabel(name, field.label)}
                 <textarea onChange={(event) => inputFun(name, event.target.value)}></textarea>
             </div>
         );
     },
-    renderLabel: (name,label) => {
-    if(label)
-        return <label className={`${name}-input-label`}>{FormRender.formatLabel(label)}</label>
+    renderLabel: (name, label) => {
+        if (label)
+            return <label className={`${name}-input-label`}>{FormRender.formatLabel(label)}</label>
     },
     formatLabel: (text) => {
         if (text[text.length - 1] == ':') {
@@ -134,27 +134,50 @@ let FormRender = {
     }
 
 
-} 
+}
+
+export function Field(type) {
+    this.label = '';
+    this.type  = type;
+    this.options = {
+        inputProps: {
+            placeholder: ''
+        }
+    }
+    this.setPlaceholder = (text) => {
+        this.options.inputProps.placeholder = text;
+        let newField = new Field()
+        newField = this;
+        return newField
+    }
+
+    this.setLabel = (label) => {
+        this.label = label;
+        let newField = new Field()
+        newField = this;
+        return newField
+    }
+
+    this.getType = () => {
+        return this.type;
+    }
+}
+
+let text = new Field();
 
 export let Fields = {
-    defaultTextOptions: {
-        label: '',
-        placeHolder: '',
-    },
-    createText: (label,placeholder,options) => {
-        let propTextObject = {
-            label: label,
-            type: 'text',
-            placeholder: placeholder,
-            options: {
-                inputProps: {
-                    placeholder: placeholder
-                }
-            },
-            ...options
-        }
-        let textObject = Object.assign({},Fields.defaultTextOptions, propTextObject);
-        return textObject;
+    // fieldObject: {
+    //     label: '',
+    //     placeholder: '',
+    //     setPlaceholder: (text) => {
+    //         this.placeholder = text;
+    //     }
+    // },
+    createText: (label) => {
+    
+        let fieldObject = new Field('text');
+        fieldObject.setLabel(label);
+        return fieldObject;
 
     },
     createTextArea: (label) => {
