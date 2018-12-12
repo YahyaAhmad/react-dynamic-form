@@ -1,0 +1,47 @@
+.react-form-tools{
+    display: flex;
+    margin-top: 15px;
+}
+
+.react-form-builder label{
+    display: block;
+    margin: 6px 0;
+    font-size: 16pt;
+}
+
+.react-form-builder input,textarea {
+    width: 100%;
+    height: 30px;
+    font-size: 14pt;
+}
+
+.react-form-builder textarea{
+    height: 60px;
+}
+
+.react-form-tools .lds-ring{
+    margin-left: auto;
+    right: 20px;
+}
+
+.react-form-tools button{
+    padding: 8px 15px;
+    background:rgb(96, 96, 228);
+    border: 0;
+    color:white;
+    font-size: 16pt;
+}
+
+
+.react-form-builder-group{
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.react-form-builder-group label,input{
+    display: block;
+}
+
+.react-form-builder-group input{
+    width: 70%;
+}
